@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
-async function api(url,opts={}){const r=await fetch(url,opts);const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Request failed');return d;}
+async function api(url,opts={}){const r=await fetch(url,{...opts,credentials:'include'});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Request failed');return d;}
 $('#toggle-password').addEventListener('click',()=>{const input=$('#admin-password'),visible=input.type==='password';input.type=visible?'text':'password';$('#toggle-password').textContent=visible?'Hide password':'Show password'});
 async function checkSession(){try{const s=await api('/api/admin/session');if(s.authenticated)showDashboard()}catch{}}
 function showDashboard(){$('#login-panel').hidden=true;$('#dashboard').hidden=false;refresh().catch(e=>alert(e.message))}
